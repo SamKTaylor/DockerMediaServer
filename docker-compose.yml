@@ -1,0 +1,47 @@
+version: '3.0'
+
+volumes:
+  if-db-data:
+
+services:
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    volumes:
+      - ./transmission/config:/config
+      - ./transmission/watch:/watch
+      - /mnt/zfs/transmission:/downloads
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - "8989:8989"
+    volumes:
+      - ./sonarr/config:/config
+      - /mnt/zfs/transmission:/downloads
+      - /mnt/zfs/sonarr:/tv
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  emby:
+    image: linuxserver/emby
+    container_name: emby
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+    volumes:
+      - ./sonarr/config:/config
+      - /mnt/zfs/transmission:/downloads
+      - /mnt/zfs/sonarr:/tv
+    env_file:
+      - .env
+    restart: unless-stopped
