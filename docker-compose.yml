@@ -27,7 +27,7 @@ services:
     volumes:
       - ./sonarr/config:/config
       - /mnt/zfs/transmission:/downloads
-      - /mnt/zfs/sonarr:/tv
+      - /mnt/zfs/tv:/tv
     env_file:
       - .env
     restart: unless-stopped
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./sonarr/config:/config
       - /mnt/zfs/transmission:/downloads
-      - /mnt/zfs/sonarr:/tv
+      - /mnt/zfs/tv:/tv
     env_file:
       - .env
     restart: unless-stopped
